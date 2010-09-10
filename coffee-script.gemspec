@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.requirements << 'node'
   s.requirements << 'coffee-script'
 
-  s.authors           = ['Jeremy Ashkenas']
-  s.email             = 'jashkenas@gmail.com'
+  s.authors           = ['Jeremy Ashkenas', 'Joshua Peek']
+  s.email             = 'josh@joshpeek.com'
   s.rubyforge_project = 'coffee-script'
 end
