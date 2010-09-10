@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
     'lib/coffee-script.rb',
     'lib/coffee_script.rb',
     'LICENSE',
-    'README.md4'
+    'README.md'
   ]
 
   s.requirements << 'node'
