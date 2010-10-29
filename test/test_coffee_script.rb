@@ -14,6 +14,21 @@ class TestCoffeeScript < Test::Unit::TestCase
       CoffeeScript.compile(io)
   end
 
+  def test_compile_with_wrap_true
+    assert_equal "(function() {\n  puts('Hello, World!');\n}).call(this);\n",
+      CoffeeScript.compile("puts 'Hello, World!'\n", :wrap => true)
+  end
+
+  def test_compile_with_wrap_false
+    assert_equal "puts('Hello, World!');",
+      CoffeeScript.compile("puts 'Hello, World!'\n", :wrap => false)
+  end
+
+  def test_compile_with_bare
+    assert_equal "puts('Hello, World!');",
+      CoffeeScript.compile("puts 'Hello, World!'\n", :bare => true)
+  end
+
   def test_compile_with_no_wrap
     assert_equal "puts('Hello, World!');",
       CoffeeScript.compile("puts 'Hello, World!'\n", :no_wrap => true)
