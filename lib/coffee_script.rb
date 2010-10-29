@@ -23,25 +23,42 @@ module CoffeeScript
 
     # Compile a script (String or IO) to JavaScript.
     def compile(script, options = {})
-      script = script.read if script.respond_to?(:read)
-      command = "#{coffee_bin} -sp"
+      args = "-sp"
 
       if options[:wrap] == false ||
           options.key?(:bare) ||
           options.key?(:no_wrap)
-        command += " --#{no_wrap_flag}"
+        args += " --#{no_wrap_flag}"
       end
 
-      IO.popen(command, "w+") do |f|
-        f << script
-        f.close_write
-        f.read
-      end
+      execute_coffee(script, args)
+    end
+
+    # Evaluate a script (String or IO) and return the stdout.
+    # Note: the first argument will be process.argv[3], the second
+    # process.argv[4], etc.
+    def evaluate(script, *args)
+      execute_coffee(script, "-s #{args.join(' ')}")
     end
 
     private
+      def execute_coffee(script, args)
+        command = "#{coffee_bin} #{args}"
+        script  = script.read if script.respond_to?(:read)
+
+        IO.popen(command, "w+") do |f|
+          f << script
+          f.close_write
+          f.read
+        end
+      end
+
       def no_wrap_flag
-        `#{coffee_bin} --help`.lines.grep(/--no-wrap/).any? ? 'no-wrap' : 'bare'
+        if `#{coffee_bin} --help`.lines.grep(/--no-wrap/).any?
+          'no-wrap'
+        else
+          'bare'
+        end
       end
   end
 end
