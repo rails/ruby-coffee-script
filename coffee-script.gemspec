@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
     'README.md'
   ]
 
-  s.requirements << 'node'
+  s.add_dependency 'coffee-script-source'
   s.add_development_dependency 'therubyracer'
 
   s.authors           = ['Jeremy Ashkenas', 'Joshua Peek']
