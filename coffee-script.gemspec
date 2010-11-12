@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   ]
 
   s.requirements << 'node'
-  s.requirements << 'coffee-script'
+  s.add_development_dependency 'therubyracer'
 
   s.authors           = ['Jeremy Ashkenas', 'Joshua Peek']
   s.email             = 'josh@joshpeek.com'
