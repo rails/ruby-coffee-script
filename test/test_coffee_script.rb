@@ -2,7 +2,7 @@ require 'coffee_script'
 require 'test/unit'
 require 'stringio'
 
-class TestCoffeeScript < Test::Unit::TestCase
+module CoffeeScriptTests
   def test_compile
     assert_equal "(function() {\n  puts('Hello, World!');\n}).call(this);\n",
       CoffeeScript.compile("puts 'Hello, World!'\n")
@@ -12,16 +12,6 @@ class TestCoffeeScript < Test::Unit::TestCase
     io = StringIO.new("puts 'Hello, World!'\n")
     assert_equal "(function() {\n  puts('Hello, World!');\n}).call(this);\n",
       CoffeeScript.compile(io)
-  end
-
-  def test_compile_with_wrap_true
-    assert_equal "(function() {\n  puts('Hello, World!');\n}).call(this);\n",
-      CoffeeScript.compile("puts 'Hello, World!'\n", :wrap => true)
-  end
-
-  def test_compile_with_wrap_false
-    assert_equal "puts('Hello, World!');",
-      CoffeeScript.compile("puts 'Hello, World!'\n", :wrap => false)
   end
 
   def test_compile_with_bare_true
@@ -43,4 +33,19 @@ class TestCoffeeScript < Test::Unit::TestCase
     assert_equal "(function() {\n  puts('Hello, World!');\n}).call(this);\n",
       CoffeeScript.compile("puts 'Hello, World!'\n", :no_wrap => false)
   end
+end
+
+CoffeeScript::Engines.constants.each do |const|
+  engine = CoffeeScript::Engines.const_get(const)
+  warn "*** skipping #{const} tests" and next unless engine.supported?
+
+  instance_eval <<-RUBY, __FILE__, __LINE__ + 1
+    class Test#{const} < Test::Unit::TestCase
+      include CoffeeScriptTests
+
+      def setup
+        CoffeeScript.engine = CoffeeScript::Engines::#{const}
+      end
+    end
+  RUBY
 end
