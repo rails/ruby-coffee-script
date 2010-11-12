@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'coffee-script-source'
   s.add_development_dependency 'therubyracer'
 
-  s.authors           = ['Jeremy Ashkenas', 'Joshua Peek']
+  s.authors           = ['Jeremy Ashkenas', 'Joshua Peek', 'Sam Stephenson']
   s.email             = 'josh@joshpeek.com'
   s.rubyforge_project = 'coffee-script'
 end
