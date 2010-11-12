@@ -4,9 +4,9 @@ Gem::Specification.new do |s|
   s.date      = '2010-10-29'
 
   s.homepage    = "http://github.com/josh/ruby-coffee-script"
-  s.summary     = "Ruby CoffeeScript wrapper"
+  s.summary     = "Ruby CoffeeScript Compiler"
   s.description = <<-EOS
-    Ruby CoffeeScript is a thin wrapper around the coffee binary.
+    Ruby CoffeeScript is a bridge to the JS CoffeeScript compiler.
   EOS
 
   s.files = [
