@@ -37,7 +37,10 @@ end
 
 CoffeeScript::Engines.constants.each do |const|
   engine = CoffeeScript::Engines.const_get(const)
-  warn "*** skipping #{const} tests" and next unless engine.supported?
+  unless engine.supported?
+    warn "*** skipping #{const} tests"
+    next
+  end
 
   instance_eval <<-RUBY, __FILE__, __LINE__ + 1
     class Test#{const} < Test::Unit::TestCase
