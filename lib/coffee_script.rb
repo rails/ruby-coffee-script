@@ -62,9 +62,35 @@ module CoffeeScript
     end
   end
 
+  module V8
+    class << self
+      def supported?
+        require 'v8'
+        true
+      rescue LoadError
+        false
+      end
+
+      def compile(script, options = {})
+        coffee_module['compile'].call(script, Source.bare_option => options[:bare])
+      end
+
+      private
+        def coffee_module
+          @coffee_module ||= build_coffee_module
+        end
+
+        def build_coffee_module
+          context = ::V8::Context.new
+          context.eval(Source.read)
+          context['CoffeeScript']
+        end
+    end
+  end
+
   class << self
     def engines
-      [Node, JavaScriptCore]
+      [V8, Node, JavaScriptCore]
     end
 
     def engine
