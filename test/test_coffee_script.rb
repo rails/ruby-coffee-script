@@ -33,6 +33,24 @@ module CoffeeScriptTests
     assert_equal "(function() {\n  puts('Hello, World!');\n}).call(this);\n",
       CoffeeScript.compile("puts 'Hello, World!'\n", :no_wrap => false)
   end
+
+  def test_compilation_error
+    assert_raise CoffeeScript::CompilationError do
+      CoffeeScript.compile("unless")
+    end
+  end
+
+  def test_error_messages_omit_leading_error_string
+    assert_exception_does_not_match(/^Error: /) { CoffeeScript.compile("unless") }   # parse error
+    assert_exception_does_not_match(/^Error: /) { CoffeeScript.compile("function") } # syntax error
+  end
+
+  def assert_exception_does_not_match(pattern)
+    yield
+    flunk "no exception raised"
+  rescue Exception => e
+    assert_no_match pattern, e.message
+  end
 end
 
 CoffeeScript::Engines.constants.each do |const|

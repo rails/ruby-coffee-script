@@ -4,6 +4,10 @@ require 'tempfile'
 require 'coffee_script/source'
 
 module CoffeeScript
+  class Error  < ::StandardError; end
+  class EngineError      < Error; end
+  class CompilationError < Error; end
+
   module Source
     def self.path
       @path ||= ENV['COFFEESCRIPT_SOURCE_PATH'] || bundled_path
@@ -27,6 +31,46 @@ module CoffeeScript
     end
   end
 
+  module ExternalEngine
+    class << self
+      def compile(script, options)
+        f = Tempfile.open("coffee.js")
+        command = yield f
+        f.puts compile_js(script, options)
+        f.close
+
+        execute(command)
+      ensure
+        f.close! if f
+      end
+
+      def execute(command)
+        out = `#{command}`.chomp
+        if $?.success?
+          status, result = out[0, 1], out[1..-1]
+          if status == "+"
+            result
+          else
+            raise CompilationError, result[/^(?:Error: )?(.*)/, 1]
+          end
+        else
+          raise EngineError, out
+        end
+      end
+
+      def compile_js(script, options)
+        options = options[:bare] ? "{#{Source.bare_option} : true}" : "{}"
+        <<-JS
+          try {
+            print('+' + CoffeeScript.compile(#{script.to_json}, #{options}));
+          } catch (e) {
+            print('-' + e);
+          }
+        JS
+      end
+    end
+  end
+
   module Engines
     module JavaScriptCore
       BIN = "/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc"
@@ -37,17 +81,10 @@ module CoffeeScript
         end
 
         def compile(script, options = {})
-          options = options[:bare] ? "{#{Source.bare_option} : true}" : "{}"
-
-          f = Tempfile.open("coffee.js")
-          f.puts "load(#{Source.path.to_json});"
-          f.puts "print(CoffeeScript.compile(#{script.to_json}, #{options}));"
-          f.close
-
-          out = `#{BIN} #{f.path}`
-          $?.success? ? out.chomp : nil
-        ensure
-          f.close! if f
+          ExternalEngine.compile(script, options) do |f|
+            f.puts "load(#{Source.path.to_json});"
+            "#{BIN} #{f.path}"
+          end
         end
       end
     end
@@ -60,17 +97,11 @@ module CoffeeScript
         end
 
         def compile(script, options = {})
-          options = options[:bare] ? "{#{Source.bare_option} : true}" : "{}"
-
-          f = Tempfile.open("coffee.js")
-          f.puts Source.contents
-          f.puts "console.log(this.CoffeeScript.compile(#{script.to_json}, #{options}));"
-          f.close
-
-          out = `node #{f.path}`
-          $?.success? ? out.chomp : nil
-        ensure
-          f.close! if f
+          ExternalEngine.compile(script, options) do |f|
+            f.puts Source.contents
+            f.puts "var CoffeeScript = this.CoffeeScript, print = console.log;"
+            "node #{f.path}"
+          end
         end
       end
     end
@@ -86,6 +117,8 @@ module CoffeeScript
 
         def compile(script, options = {})
           coffee_module['compile'].call(script, Source.bare_option => options[:bare])
+        rescue ::V8::JSError => e
+          raise CompilationError, e.message
         end
 
         private
@@ -97,6 +130,8 @@ module CoffeeScript
             context = ::V8::Context.new
             context.eval(Source.contents)
             context['CoffeeScript']
+          rescue ::V8::JSError => e
+            raise EngineError, e.message
           end
       end
     end
