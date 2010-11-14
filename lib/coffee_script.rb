@@ -33,13 +33,12 @@ module CoffeeScript
 
   module ExternalEngine
     class << self
-      def compile(script, options)
-        f = Tempfile.open("coffee.js")
-        command = yield f
+      def compile(command, script, options)
+        yield f = Tempfile.open("coffee.js")
         f.puts compile_js(script, options)
         f.close
 
-        execute(command)
+        execute("#{command} #{f.path}")
       ensure
         f.close! if f
       end
@@ -81,9 +80,8 @@ module CoffeeScript
         end
 
         def compile(script, options = {})
-          ExternalEngine.compile(script, options) do |f|
+          ExternalEngine.compile(BIN, script, options) do |f|
             f.puts "load(#{Source.path.to_json});"
-            "#{BIN} #{f.path}"
           end
         end
       end
@@ -97,10 +95,9 @@ module CoffeeScript
         end
 
         def compile(script, options = {})
-          ExternalEngine.compile(script, options) do |f|
+          ExternalEngine.compile("node", script, options) do |f|
             f.puts Source.contents
             f.puts "var CoffeeScript = this.CoffeeScript, print = console.log;"
-            "node #{f.path}"
           end
         end
       end
