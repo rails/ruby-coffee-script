@@ -89,13 +89,22 @@ module CoffeeScript
 
     module Node
       class << self
+        
+        def binary
+          @binary ||= 'node'
+        end
+        
+        def binary=(value)
+          @binary = value.nil? ? nil : value.to_s
+        end
+        
         def supported?
-          `which node`
+          `which '#{binary}'`
           $?.success?
         end
 
         def compile(script, options = {})
-          ExternalEngine.compile("node", script, options) do |f|
+          ExternalEngine.compile(binary, script, options) do |f|
             f.puts Source.contents
             f.puts "var CoffeeScript = this.CoffeeScript, print = console.log;"
           end
