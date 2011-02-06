@@ -89,18 +89,17 @@ module CoffeeScript
 
     module Node
       class << self
-        
+
         def binary
-          @binary ||= 'node'
+          @binary ||= `which nodejs node`.split("\n").first
         end
-        
+
         def binary=(value)
           @binary = value.nil? ? nil : value.to_s
         end
-        
+
         def supported?
-          `which '#{binary}'`
-          $?.success?
+          binary
         end
 
         def compile(script, options = {})
