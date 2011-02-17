@@ -91,7 +91,7 @@ module CoffeeScript
       class << self
 
         def binary
-          @binary ||= `which nodejs node`.split("\n").first
+          @binary ||= `sh -c "which nodejs node"`.split("\n").first
         end
 
         def binary=(value)
