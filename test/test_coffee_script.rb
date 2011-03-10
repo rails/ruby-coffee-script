@@ -2,7 +2,7 @@ require 'coffee_script'
 require 'test/unit'
 require 'stringio'
 
-module CoffeeScriptTests
+class TestCoffeeScript < Test::Unit::TestCase
   def test_compile
     assert_equal "(function() {\n  puts('Hello, World!');\n}).call(this);\n",
       CoffeeScript.compile("puts 'Hello, World!'\n")
@@ -40,33 +40,10 @@ module CoffeeScriptTests
     end
   end
 
-  def test_error_messages_omit_leading_error_string
-    assert_exception_does_not_match(/^Error: /) { CoffeeScript.compile("unless") }   # parse error
-    assert_exception_does_not_match(/^Error: /) { CoffeeScript.compile("function") } # syntax error
-  end
-
   def assert_exception_does_not_match(pattern)
     yield
     flunk "no exception raised"
   rescue Exception => e
     assert_no_match pattern, e.message
   end
-end
-
-CoffeeScript::Engines.constants.each do |const|
-  engine = CoffeeScript::Engines.const_get(const)
-  unless engine.supported?
-    warn "*** skipping #{const} tests"
-    next
-  end
-
-  instance_eval <<-RUBY, __FILE__, __LINE__ + 1
-    class Test#{const} < Test::Unit::TestCase
-      include CoffeeScriptTests
-
-      def setup
-        CoffeeScript.engine = CoffeeScript::Engines::#{const}
-      end
-    end
-  RUBY
 end
