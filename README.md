@@ -38,4 +38,4 @@ standard library.
 
 ### ExecJS
 
-The (ExecJS)[https://github.com/sstephenson/execjs] library is used to automatically choose the best JavaScript engine for your platform. Check out its (README)[https://github.com/sstephenson/execjs/blob/master/README.md] for a complete list of supported engines.
+The [ExecJS](https://github.com/sstephenson/execjs) library is used to automatically choose the best JavaScript engine for your platform. Check out its [README](https://github.com/sstephenson/execjs/blob/master/README.md) for a complete list of supported engines.
