@@ -31,6 +31,8 @@ variable:
 
     export COFFEESCRIPT_SOURCE_PATH=/path/to/coffee-script/extras/coffee-script.js
 
+### JSON
+
 The `json` library is also required but is not explicitly stated as a
 gem dependency. If you're on Ruby 1.8 you'll need to install the
 `json` or `json_pure` gem. On Ruby 1.9, `json` is included in the
