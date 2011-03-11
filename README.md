@@ -36,22 +36,6 @@ gem dependency. If you're on Ruby 1.8 you'll need to install the
 `json` or `json_pure` gem. On Ruby 1.9, `json` is included in the
 standard library.
 
+### ExecJS
 
-Engines
--------
-
-The `coffee-script` library will automatically choose the best
-JavaScript engine for your platform. The currently implemented engines
-are:
-
-* **Node.js**. If the `node` binary is available in `$PATH`, it will
-    be used to invoke the CoffeeScript compiler.
-
-* **JavaScript Core**. If you're on OS X and don't have Node.js
-    installed, the library will fall back to the built-in JavaScript
-    Core binary, `jsc`. This way you don't need to install any
-    additional dependencies.
-
-* **V8**. Shelling out to Node.js may be too slow for your production
-    environment. In this case, install `therubyracer` gem, which
-    provides a fast bridge between Ruby and V8.
+The (ExecJS)[https://github.com/sstephenson/execjs] library is used to automatically choose the best JavaScript engine for your platform. Check out its (README)[https://github.com/sstephenson/execjs/blob/master/README.md] for a complete list of supported engines.
