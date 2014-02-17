@@ -1,0 +1,2 @@
+gemspec
+gem 'coffee-script-source', '1.7.0'

@@ -2,3 +2,6 @@ language: ruby
 
 rvm:
   - 2.1.0
+
+gemfile:
+  - test/gemfiles/1.7.0
