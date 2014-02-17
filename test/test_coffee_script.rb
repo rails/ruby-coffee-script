@@ -56,11 +56,4 @@ class TestCoffeeScript < TestCase
   def assert_no_match(expected, actual)
     assert !expected.match(actual)
   end
-
-  def assert_exception_does_not_match(pattern)
-    yield
-    flunk "no exception raised"
-  rescue Exception => e
-    assert_no_match pattern, e.message
-  end
 end
