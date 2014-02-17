@@ -1,8 +1,21 @@
+begin
+  require 'minitest/autorun'
+rescue LoadError
+  require 'test/unit'
+end
+
+TestCase = if defined? Minitest::Test
+    Minitest::Test
+  elsif defined? MiniTest::Unit::TestCase
+    MiniTest::Unit::TestCase
+  else
+    Test::Unit::TestCase
+  end
+
 require 'coffee_script'
-require 'test/unit'
 require 'stringio'
 
-class TestCoffeeScript < Test::Unit::TestCase
+class TestCoffeeScript < TestCase
   def test_compile
     assert_equal "(function() {\n  puts('Hello, World!');\n}).call(this);\n",
       CoffeeScript.compile("puts 'Hello, World!'\n")
