@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'coffee-script-source'
   s.add_dependency 'execjs'
+  s.add_development_dependency 'rake'
 
   s.authors = ['Jeremy Ashkenas', 'Joshua Peek', 'Sam Stephenson']
   s.email   = 'josh@joshpeek.com'
