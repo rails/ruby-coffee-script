@@ -48,8 +48,11 @@ class TestCoffeeScript < TestCase
   end
 
   def test_compilation_error
-    assert_raises CoffeeScript::CompilationError do
+    begin
       CoffeeScript.compile("unless")
+      flunk
+    rescue CoffeeScript::Error => e
+      assert e
     end
   end
 
