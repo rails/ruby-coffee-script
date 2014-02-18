@@ -8,5 +8,8 @@ rvm:
   - 2.1.0
 
 gemfile:
-  - test/gemfiles/1.7.0
+  - test/gemfiles/1.6.0
+  - test/gemfiles/1.6.1
+  - test/gemfiles/1.6.2
   - test/gemfiles/1.6.3
+  - test/gemfiles/1.7.0
