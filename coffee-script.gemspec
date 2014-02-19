@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.description = <<-EOS
     Ruby CoffeeScript is a bridge to the JS CoffeeScript compiler.
   EOS
+  s.license = "MIT"
 
   s.files = [
     'lib/coffee-script.rb',
