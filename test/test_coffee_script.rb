@@ -49,15 +49,22 @@ class TestCoffeeScript < TestCase
 
   def test_compilation_error
     error_messages = [
-      # <=1.5
-      "Error: Parse error on line 1: Unexpected 'POST_IF'",
+      # <=1.4
+      "Error: Parse error on line 4: Unexpected 'POST_IF'",
+      # 1.5
+      "Error: Parse error on line 3: Unexpected 'POST_IF'",
       # 1.6
-      "SyntaxError: unexpected POST_IF",
+      "SyntaxError: [stdin]:3:11: unexpected POST_IF",
       # 1.7
-      "[stdin]:1:1: error: unexpected unless\nunless\n^^^^^^"
+      "SyntaxError: [stdin]:3:11: unexpected unless"
     ]
     begin
-      CoffeeScript.compile("unless")
+      src = <<-EOS
+        sayHello = ->
+          console.log "hello, world"
+          unless
+      EOS
+      CoffeeScript.compile(src)
       flunk
     rescue CoffeeScript::Error => e
       assert error_messages.include?(e.message),
