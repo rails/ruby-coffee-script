@@ -15,3 +15,5 @@ gemfile:
   - test/gemfiles/1.5
   - test/gemfiles/1.6
   - test/gemfiles/1.7
+  - test/gemfiles/1.8
+  - test/gemfiles/1.9
