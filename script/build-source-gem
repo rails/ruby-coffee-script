@@ -1,0 +1,72 @@
+#!/bin/bash
+
+set -e
+set -x
+
+VERSION="$1"
+
+mkdir -p tmp/
+pushd tmp/
+
+if [ ! -d "coffeescript/" ]; then
+  git clone "https://github.com/jashkenas/coffeescript"
+fi
+pushd coffeescript/
+
+git checkout "$VERSION"
+
+npm install
+
+mkdir -p lib/coffee_script
+
+cake build:browser
+mv extras/coffee-script.js lib/coffee_script/coffee-script.js
+
+cat << ERUBY > lib/coffee_script/source.rb
+module CoffeeScript
+  module Source
+    def self.bundled_path
+      File.expand_path("../coffee-script.js", __FILE__)
+    end
+  end
+end
+ERUBY
+
+cat << ERUBY > coffee-script-source.gemspec
+require 'rubygems'
+require 'json'
+
+version = JSON.parse(File.read('package.json'))["version"]
+date = Time.at(`git show HEAD --format=%at | head -n1`)
+
+warn "#{version} at #{date}"
+
+gemspec = Gem::Specification.new do |s|
+  s.name      = 'coffee-script-source'
+  s.version   = version
+  s.date      = date
+
+  s.homepage    = "http://jashkenas.github.com/coffee-script/"
+  s.summary     = "The CoffeeScript Compiler"
+  s.description = <<-EOS
+    CoffeeScript is a little language that compiles into JavaScript.
+    Underneath all of those embarrassing braces and semicolons,
+    JavaScript has always had a gorgeous object model at its heart.
+    CoffeeScript is an attempt to expose the good parts of JavaScript
+    in a simple way.
+  EOS
+
+  s.files = [
+    'lib/coffee_script/coffee-script.js',
+    'lib/coffee_script/source.rb'
+  ]
+
+  s.authors           = ['Jeremy Ashkenas']
+  s.email             = 'jashkenas@gmail.com'
+  s.rubyforge_project = 'coffee-script-source'
+  s.license           = "MIT"
+end
+ERUBY
+
+gem build coffee-script-source.gemspec
+mv *.gem ../
