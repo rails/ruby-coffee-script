@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name    = 'coffee-script'
-  s.version = '2.4.0'
+  s.version = '2.4.1'
 
   s.homepage    = "http://github.com/josh/ruby-coffee-script"
   s.summary     = "Ruby CoffeeScript Compiler"
