@@ -73,6 +73,8 @@ module CoffeeScript
         options[:bare] = false
       end
 
+      # Stringify keys
+      options = options.inject({}) { |h, (k, v)| h[k.to_s] = v; h }
       Source.context.call("compile", script, options)
     end
   end
