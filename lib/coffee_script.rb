@@ -16,8 +16,26 @@ module CoffeeScript
       @path = path
     end
 
+    COMPILE_FUNCTION_SOURCE = <<-JS
+      ;function compile(script, options) {
+        try {
+          return CoffeeScript.compile(script, options);
+        } catch (err) {
+          if (err instanceof SyntaxError && err.location) {
+            throw new SyntaxError([
+              err.filename || "[stdin]",
+              err.location.first_line + 1,
+              err.location.first_column + 1
+            ].join(":") + ": " + err.message)
+          } else {
+            throw err;
+          }
+        }
+      }
+    JS
+
     def self.contents
-      @contents ||= File.read(path)
+      @contents ||= File.read(path) + COMPILE_FUNCTION_SOURCE
     end
 
     def self.version
@@ -55,25 +73,7 @@ module CoffeeScript
         options[:bare] = false
       end
 
-      wrapper = <<-WRAPPER
-        (function(script, options) {
-          try {
-            return CoffeeScript.compile(script, options);
-          } catch (err) {
-            if (err instanceof SyntaxError && err.location) {
-              throw new SyntaxError([
-                err.filename || "[stdin]",
-                err.location.first_line + 1,
-                err.location.first_column + 1
-              ].join(":") + ": " + err.message)
-            } else {
-              throw err;
-            }
-          }
-        })
-      WRAPPER
-
-      Source.context.call(wrapper, script, options)
+      Source.context.call("compile", script, options)
     end
   end
 end
