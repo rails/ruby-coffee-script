@@ -17,7 +17,7 @@ module CoffeeScript
     end
 
     COMPILE_FUNCTION_SOURCE = <<-JS
-      function compile(script, options) {
+      ;function compile(script, options) {
         try {
           return CoffeeScript.compile(script, options);
         } catch (err) {
