@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.name    = 'coffee-script'
   s.version = '2.4.1'
 
-  s.homepage    = "http://github.com/josh/ruby-coffee-script"
+  s.homepage    = "http://github.com/rails/ruby-coffee-script"
   s.summary     = "Ruby CoffeeScript Compiler"
   s.description = <<-EOS
     Ruby CoffeeScript is a bridge to the JS CoffeeScript compiler.
