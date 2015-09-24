@@ -18,22 +18,7 @@ module CoffeeScript
 
     COMPILE_FUNCTION_SOURCE = <<-JS
       ;function compile(script, options) {
-        try {
-          var result = CoffeeScript.compile(script, options);
-          if (options.sourceMap === "v3" && result.sourceMap)
-            delete result.sourceMap;
-          return result;
-        } catch (err) {
-          if (err instanceof SyntaxError && err.location) {
-            throw new SyntaxError([
-              err.filename || "[stdin]",
-              err.location.first_line + 1,
-              err.location.first_column + 1
-            ].join(":") + ": " + err.message)
-          } else {
-            throw err;
-          }
-        }
+        return CoffeeScript.compile(script, options);
       }
     JS
 

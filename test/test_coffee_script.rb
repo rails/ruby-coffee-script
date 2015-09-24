@@ -44,7 +44,7 @@ class TestCoffeeScript < Minitest::Test
       # 1.6
       "SyntaxError: [stdin]:3:11: unexpected POST_IF",
       # 1.7
-      "SyntaxError: [stdin]:3:11: unexpected unless"
+      "[stdin]:3:11: error: unexpected unless\n          unless\n          ^^^^^^"
     ]
     begin
       src = <<-EOS
