@@ -8,7 +8,8 @@ rvm:
   - 1.9.2
   - 1.9.3
   - 2.0.0
-  - 2.1.0
+  - 2.1
+  - 2.2.3
 
 gemfile:
   - test/gemfiles/1.0
@@ -21,3 +22,4 @@ gemfile:
   - test/gemfiles/1.7
   - test/gemfiles/1.8
   - test/gemfiles/1.9
+  - test/gemfiles/1.10
