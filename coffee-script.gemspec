@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'execjs'
   s.add_development_dependency 'json'
   s.add_development_dependency 'rake'
+  s.add_development_dependency 'minitest'
 
   s.authors = ['Jeremy Ashkenas', 'Joshua Peek', 'Sam Stephenson']
   s.email   = 'josh@joshpeek.com'

@@ -1,21 +1,9 @@
-begin
-  require 'minitest/autorun'
-rescue LoadError
-  require 'test/unit'
-end
-
-TestCase = if defined? Minitest::Test
-    Minitest::Test
-  elsif defined? MiniTest::Unit::TestCase
-    MiniTest::Unit::TestCase
-  else
-    Test::Unit::TestCase
-  end
+require 'minitest/autorun'
 
 require 'coffee_script'
 require 'stringio'
 
-class TestCoffeeScript < TestCase
+class TestCoffeeScript < Minitest::Test
   def test_compile
     assert_match "puts('Hello, World!')",
       CoffeeScript.compile("puts 'Hello, World!'\n")
