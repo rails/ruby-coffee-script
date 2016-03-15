@@ -42,8 +42,10 @@ class TestCoffeeScript < Minitest::Test
       # 1.5
       "Error: Parse error on line 3: Unexpected 'POST_IF'",
       # 1.6
-      "SyntaxError: [stdin]:3:11: unexpected POST_IF",
+      "SyntaxError: unexpected POST_IF",
       # 1.7
+      "SyntaxError: [stdin]:3:11: unexpected unless",
+      # 1.9
       "[stdin]:3:11: error: unexpected unless\n          unless\n          ^^^^^^"
     ]
     begin
