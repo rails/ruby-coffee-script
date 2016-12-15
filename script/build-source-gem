@@ -19,8 +19,8 @@ npm install
 
 mkdir -p lib/coffee_script
 
-MINIFY=false cake build:browser
-mv extras/coffee-script.js lib/coffee_script/coffee-script.js
+MINIFY=false ./bin/cake build:browser
+mv docs/v1/browser-compiler/coffee-script.js lib/coffee_script/coffee-script.js
 
 cat << ERUBY > lib/coffee_script/source.rb
 module CoffeeScript
