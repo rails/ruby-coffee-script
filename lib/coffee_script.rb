@@ -19,7 +19,10 @@ module CoffeeScript
     COMPILE_FUNCTION_SOURCE = <<-JS
       ;function compile(script, options) {
         try {
-          return CoffeeScript.compile(script, options);
+          var result = CoffeeScript.compile(script, options);
+          if (options.sourceMap === "v3" && result.sourceMap)
+            delete result.sourceMap;
+          return result;
         } catch (err) {
           if (err instanceof SyntaxError && err.location) {
             throw new SyntaxError([
