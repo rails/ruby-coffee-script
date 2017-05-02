@@ -7,7 +7,10 @@ sudo: false
 rvm:
   - 2.0.0
   - 2.1
-  - 2.2.3
+  - 2.2.7
+  - 2.3.4
+  - 2.4.1
+  - ruby-head
 
 gemfile:
   - test/gemfiles/1.0
@@ -21,3 +24,8 @@ gemfile:
   - test/gemfiles/1.8
   - test/gemfiles/1.9
   - test/gemfiles/1.10
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+  fast_finish: true
