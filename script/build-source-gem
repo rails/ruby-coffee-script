@@ -46,7 +46,7 @@ gemspec = Gem::Specification.new do |s|
   s.version   = version
   s.date      = date
 
-  s.homepage    = "http://coffeescript.org"
+  s.homepage    = "https://github.com/rails/ruby-coffee-script"
   s.summary     = "The CoffeeScript Compiler"
   s.description = <<-EOS
     CoffeeScript is a little language that compiles into JavaScript.
