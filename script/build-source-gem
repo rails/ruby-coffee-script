@@ -13,6 +13,14 @@ if [ ! -d "coffeescript/" ]; then
 fi
 pushd coffeescript/
 
+if [ "$VERSION" == "" ]
+then
+  git fetch --tags
+  VERSION=$(git describe --tags)
+  git checkout "$VERSION"
+  echo "Version is empty. Using latest tag: $VERSION."
+fi
+
 git checkout "$VERSION"
 
 npm install
@@ -20,7 +28,19 @@ npm install
 mkdir -p lib/coffee_script
 
 MINIFY=false ./bin/cake build:browser
-mv docs/v1/browser-compiler/coffee-script.js lib/coffee_script/coffee-script.js
+
+case "$VERSION" in
+1.*)
+  mv docs/v1/browser-compiler/coffee-script.js lib/coffee_script/coffee-script.js
+  ;;
+2.*)
+  mv docs/v2/browser-compiler/coffeescript.js lib/coffee_script/coffee-script.js
+  ;;
+*)
+  echo "NO VALID VERSION DETECTED. FAILING HARD."
+  exit 1
+  ;;
+esac
 
 cat << ERUBY > lib/coffee_script/source.rb
 module CoffeeScript
