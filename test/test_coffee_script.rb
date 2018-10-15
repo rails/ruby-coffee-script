@@ -30,7 +30,7 @@ class TestCoffeeScript < Minitest::Test
       CoffeeScript.compile("puts 'Hello, World!'\n", :no_wrap => true)
   end
 
-  def test_compile_with_no_wrap
+  def test_compile_with_no_wrap_false
     assert_match "function()",
       CoffeeScript.compile("puts 'Hello, World!'\n", :no_wrap => false)
   end
