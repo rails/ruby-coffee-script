@@ -69,11 +69,8 @@ module CoffeeScript
     def compile(script, options = {})
       script = script.read if script.respond_to?(:read)
 
-      if options.key?(:bare)
-      elsif options.key?(:no_wrap)
-        options[:bare] = options[:no_wrap]
-      else
-        options[:bare] = false
+      unless options.key?(:bare)
+        options[:bare] = options.key?(:no_wrap) ? options[:no_wrap] : false
       end
 
       # Stringify keys
