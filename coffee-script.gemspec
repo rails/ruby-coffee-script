@@ -9,6 +9,12 @@ Gem::Specification.new do |s|
   EOS
   s.license = "MIT"
 
+  s.metadata = {
+    "bug_tracker_uri"   => "https://github.com/rails/ruby-coffee-script/issues",
+    "documentation_uri" => "https://www.rubydoc.info/gems/coffee-script/#{s.version}",
+    "source_code_uri"   => "https://github.com/rails/ruby-coffee-script/tree/v#{s.version}",
+  }
+
   s.files = [
     'lib/coffee-script.rb',
     'lib/coffee_script.rb',
