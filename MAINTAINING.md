@@ -12,15 +12,15 @@ To prepare the release commit:
 
 1. Edit the [coffee-script.gemspec](https://github.com/rails/ruby-coffee-script/blob/master/coffee-script.gemspec)
 `s.version` value.
-3. Make a single commit with the description as "Ruby CoffeeScript 1.x.x".
-4. Finally, tag the commit with `v1.x.x`.
+3. Make a single commit with the description as "Ruby CoffeeScript 2.x.x".
+4. Finally, tag the commit with `v2.x.x`.
 
 ``` sh
 $ git pull
 $ vim coffee-script.gemspec
 $ git add coffee-script.gemspec
-$ git commit -m "Ruby CoffeeScript 1.x.x"
-$ git tag v1.x.x
+$ git commit -m "Ruby CoffeeScript 2.x.x"
+$ git tag v2.x.x
 $ git push
 $ git push --tags
 ```
